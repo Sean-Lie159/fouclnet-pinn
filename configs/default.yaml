@@ -1,0 +1,75 @@
+# FouCLNet 默认配置（方法级默认值，不绑定任何具体数据集）
+#
+# 用法：
+#   python scripts/train.py --config configs/default.yaml --data-csv <你的数据.csv>
+# 覆盖单项：
+#   --set system.mass=5e-5 --set train.max_epochs=1000
+#
+# 案例相关的具体取值见 examples/*/config.yaml。
+
+system:
+  mass: 1.0            # 广义质量 M [kg]
+  damping: 0.1         # 广义阻尼 C
+  stiffness: 1.0       # 广义刚度 K
+  fs: 200.0            # 采样率 [Hz]
+  x0: 0.0              # 初始位移
+  v0: 0.0              # 初始速度
+  t_scale: 50.0        # 时间归一化尺度
+  x_scale: 1.0e-3      # 输出量纲还原尺度（网络输出 * 该值 = 物理量）
+
+train:
+  split_ratio: 0.8          # 训练域占整条记录的比例
+  seed: 42                  # 全局随机种子
+  fourier_dim: 512          # 傅里叶特征频率个数
+  freq_min: 0.003           # 频率下界 [Hz]
+  freq_max: 0.02            # 频率上界 [Hz]
+  hidden_layers: [512, 512, 256, 128]
+  w_data: 1.0               # 数据拟合项权重
+  w_corr: 10.0              # 硬振幅约束 HAC 权重
+  w_freq: 10.0              # 频域匹配项权重
+  w_ic: 0.0                 # 初始条件项权重（默认关闭）
+  freq_band_min: null       # 频域项关注频带下界 [Hz]（null -> 0.7*f0）
+  freq_band_max: null       # 频域项关注频带上界 [Hz]（null -> 1.4*f0）
+  pde_start_epoch: 10000    # 引入物理残差的轮次
+  pde_full_epoch: 20000     # 残差权重达到上限的轮次
+  w_pde_max: 1.0e-8         # 弱残差权重上限
+  pde_adaptive_r_threshold: 0.999
+  pde_adaptive_multiplier: 1.2
+  pde_adaptive_interval: 2000
+  max_epochs: 40000
+  batch_size: 2048
+  validation_interval: 500
+  lr: 1.0e-4
+  weight_decay: 1.0e-5
+  scheduler_t_max: 3000
+  scheduler_eta_min: 1.0e-6
+  grad_clip: 1.0
+  patience: 30
+  min_delta: 1.0e-7
+  focus_start: 1500.0       # 重点采样时间窗 [s]
+  focus_end: 2000.0
+  focus_weight: 5.0
+  device: auto
+
+data:
+  csv_path: data/series.csv   # 相对仓库根目录；也可用 --data-csv 覆盖
+  column: null                # 多列文件时使用的列序号（0 起）
+  smoothing: savgol           # savgol | none
+  savgol_window: 51           # 平滑窗口长度（点）
+  savgol_polyorder: 3         # 平滑多项式阶数
+  derivative_order: 1         # 对平滑后通道求导阶数（0/1/2）
+  forcing_scale: 1.0          # F = forcing_scale * d^order x / dt^order
+
+  use_fraction: 0.20        # 使用记录前端比例
+evaluation:
+  isolated_start: 2000.0      # 严格隔离段起点 [s]
+  isolated_end: 3000.0        # 严格隔离段终点 [s]
+  vis_start: 500.0            # 连续时段可视化起点 [s]
+  vis_end: 1500.0             # 连续时段可视化终点 [s]
+  zoom_start: 2000.0          # 局部放大窗口起点 [s]
+  zoom_end: 2100.0            # 局部放大窗口终点 [s]
+  extrapolation_start: 15000.0
+  extrapolation_end: 16000.0
+  welch_nperseg: 131072       # Welch 段长（点）
+  hf_cutoff: 0.02             # 高频段截止频率 [Hz]
+  focus_freq: null            # 关注的特征频率 [Hz]（null -> system.f0）

@@ -1,0 +1,88 @@
+{
+  "config": "examples/torsion_pendulum_seismic/config.yaml",
+  "data_csv": "ZA_velocity.csv (200 Hz, single column; ground-motion record used by the case, not redistributed)",
+  "models": {
+    "full": {
+      "training_domain": {
+        "R": 0.9993632270924718,
+        "MSE": 6.684576698857006e-09,
+        "relative_error": 0.2604223272923257,
+        "amplitude_match": 100.02259196922407,
+        "max_abs_error": 0.0006904376375984656,
+        "peak_error_fs_percent": 6.718288383323823,
+        "relative_error_fs_percent": 0.5244926318449264,
+        "relative_error_above_10pct_fs": 2.322451985811165,
+        "full_scale": 0.010276987205733445
+      },
+      "in_distribution_val": {
+        "R": 0.999364472927676,
+        "MSE": 6.683070982476948e-09,
+        "relative_error": 0.25253088452586114,
+        "amplitude_match": 100.02165454146403,
+        "max_abs_error": 0.0006904141952223615,
+        "peak_error_fs_percent": 6.718100359555875,
+        "relative_error_fs_percent": 0.5248902068114353,
+        "relative_error_above_10pct_fs": 2.3276467875305515,
+        "full_scale": 0.010276925890818397
+      },
+      "extrapolation": {
+        "R": 0.0014051199648521774,
+        "MSE": 6.283102677685643e-05,
+        "relative_error": 33.884343900100795,
+        "amplitude_match": 351.165501820305,
+        "max_abs_error": 0.015526383034747708,
+        "peak_error_fs_percent": 192.70891082883836,
+        "relative_error_fs_percent": 86.27356849017879,
+        "relative_error_above_10pct_fs": 372.4382944421737,
+        "full_scale": 0.008056909754701507
+      }
+    },
+    "isolated": {
+      "training_domain": {
+        "R": 0.8967084839511819,
+        "MSE": 1.3155163866148465e-06,
+        "relative_error": 2.952583363207999,
+        "amplitude_match": 109.33598221607032,
+        "max_abs_error": 0.0056075152336646766,
+        "peak_error_fs_percent": 54.56380475531088,
+        "relative_error_fs_percent": 3.909018796403703,
+        "relative_error_above_10pct_fs": 19.618392353386024,
+        "full_scale": 0.010276987205733445
+      },
+      "in_distribution_val": {
+        "R": 0.9965919105419401,
+        "MSE": 3.839971713668919e-08,
+        "relative_error": 0.27327148119976785,
+        "amplitude_match": 100.06597941351791,
+        "max_abs_error": 0.0015060930317833427,
+        "peak_error_fs_percent": 14.655140387877145,
+        "relative_error_fs_percent": 0.8595892996084807,
+        "relative_error_above_10pct_fs": 4.453015138437607,
+        "full_scale": 0.010276892557298158
+      },
+      "extrapolation": {
+        "R": 0.04265042778850917,
+        "MSE": 2.4758443597310823e-05,
+        "relative_error": 17.581892627521007,
+        "amplitude_match": 165.86121973594118,
+        "max_abs_error": 0.00966906138307246,
+        "peak_error_fs_percent": 120.009553010448,
+        "relative_error_fs_percent": 51.80340967800136,
+        "relative_error_above_10pct_fs": 226.73451008902043,
+        "full_scale": 0.008056909754701507
+      },
+      "isolated_segment": {
+        "R": -0.014704552516896374,
+        "MSE": 1.3006810944653553e-05,
+        "relative_error": 27.273041033917405,
+        "amplitude_match": 140.97219689020977,
+        "max_abs_error": 0.0056075152336646766,
+        "peak_error_fs_percent": 154.7911384423366,
+        "relative_error_fs_percent": 90.26894003440954,
+        "relative_error_above_10pct_fs": 395.63031952334626,
+        "full_scale": 0.0036226332399212956
+      }
+    }
+  },
+  "note": "Produced by the 2026-10-22 retrain: 40000 epochs, seed 42, same data file as the case."
+}

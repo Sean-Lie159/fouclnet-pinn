@@ -1,0 +1,8 @@
+# 统一以 LF 存储、检出为 LF（跨平台一致）
+* text=auto eol=lf
+
+# 二进制文件不做行尾转换
+*.pth binary
+*.png binary
+*.pdf binary
+*.csv -text

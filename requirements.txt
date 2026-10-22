@@ -1,0 +1,10 @@
+# 运行本仓库所需的依赖（Python >= 3.9）
+#
+# 版本下限按开发验证环境（Python 3.13 / CUDA 12.x）给出，
+# 上限留空以兼容后续版本；如需严格复现既有结果，可固定为下列版本。
+numpy>=1.24
+scipy>=1.10
+torch>=2.0
+matplotlib>=3.7
+PyYAML>=6.0        # 读取 configs/*.yaml（可选，改用 JSON 配置则不需要）
+pytest>=7.4        # 运行 tests/

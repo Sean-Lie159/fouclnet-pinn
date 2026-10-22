@@ -1,0 +1,51 @@
+﻿# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# ---------- 工具缓存 ----------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# ---------- 本地/私有文件（不随仓库发布） ----------
+/docs/MIGRATION*.md
+/docs/internal/
+/docs/_*
+*.local.md
+*.private.md
+/scratch/
+/tmp/
+/notes/
+/logs/
+.env
+.env.*
+
+# ---------- 数据（体积较大，请按 data/README.md 自行准备） ----------
+/data/*.csv
+/data/*.txt
+/data/raw/
+/examples/*/data/*.csv
+!/examples/*/data/sample/*.csv
+
+# ---------- 训练输出（仅忽略仓库根目录下的输出目录） ----------
+/checkpoints/
+/results/
+*.pth.tmp
+*.log
+
+# ---------- 编辑器 / 系统 ----------
+.vscode/
+.idea/
+*.swp
+.DS_Store
+desktop.ini
+Thumbs.db

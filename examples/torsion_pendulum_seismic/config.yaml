@@ -1,0 +1,77 @@
+# 案例配置：地震动激励下高 Q 值扭摆系统的响应重建
+#
+# 系统：I * theta'' + gamma * theta' + kappa * theta = Ns(t)
+#   M = I（转动惯量）, C = gamma（阻尼）, K = kappa（扭转刚度）
+# 数据：地面 Z 分量速度记录 -> Savitzky-Golay 平滑 -> 一次数值求导得加速度
+#       Ns = -Cs * a_g,  Cs = m * arm_length = 0.023 kg*m
+#
+# 用法（仓库根目录执行）：
+#   python scripts/train.py --config examples/torsion_pendulum_seismic/config.yaml \
+#       --data-csv <ZA_velocity.csv>
+
+system:
+  mass: 5.0e-5          # 转动惯量 I [kg m^2]
+  damping: 1.0e-8       # 阻尼系数 gamma [N m s / rad]
+  stiffness: 1.0e-7     # 扭转刚度 kappa [N m / rad]
+  fs: 200.0             # 采样率 [Hz]
+  x0: 0.0               # 初始角位移 [rad]
+  v0: 0.0               # 初始角速度 [rad/s]
+  t_scale: 50.0         # 时间归一化尺度
+  x_scale: 1.0e-3       # 角位移量纲还原尺度
+
+train:
+  split_ratio: 0.8          # 训练域占整条记录的 80%
+  seed: 42
+  fourier_dim: 512
+  freq_min: 0.003           # 覆盖扭摆固有频率 0.00711 Hz
+  freq_max: 0.02
+  hidden_layers: [512, 512, 256, 128]
+  w_data: 1.0
+  w_corr: 10.0
+  w_freq: 10.0
+  w_ic: 0.0
+  freq_band_min: 0.005      # 关注扭摆共振频带
+  freq_band_max: 0.01
+  pde_start_epoch: 10000
+  pde_full_epoch: 20000
+  w_pde_max: 1.0e-8
+  pde_adaptive_r_threshold: 0.999
+  pde_adaptive_multiplier: 1.2
+  pde_adaptive_interval: 2000
+  max_epochs: 40000
+  batch_size: 2048
+  validation_interval: 500
+  lr: 1.0e-4
+  weight_decay: 1.0e-5
+  scheduler_t_max: 3000
+  scheduler_eta_min: 1.0e-6
+  grad_clip: 1.0
+  patience: 30
+  min_delta: 1.0e-7
+  focus_start: 1500.0
+  focus_end: 2000.0
+  focus_weight: 5.0
+  device: auto
+
+data:
+  csv_path: examples/torsion_pendulum_seismic/data/ZA_velocity.csv
+  column: null
+  smoothing: savgol
+  savgol_window: 51
+  savgol_polyorder: 3
+  derivative_order: 1         # 速度 -> 加速度
+  forcing_scale: -0.023       # Ns = -Cs * a_g, Cs = m * arm_length
+
+  use_fraction: 0.20        # 使用地面记录前端 20%
+evaluation:
+  isolated_start: 2000.0      # 严格隔离段 2000-3000 s
+  isolated_end: 3000.0
+  vis_start: 500.0            # 连续时段可视化 500-1500 s
+  vis_end: 1500.0
+  zoom_start: 2000.0          # 局部放大 2000-2100 s
+  zoom_end: 2100.0
+  extrapolation_start: 15000.0
+  extrapolation_end: 16000.0
+  welch_nperseg: 131072
+  hf_cutoff: 0.02
+  focus_freq: 0.007           # 扭摆固有频率
