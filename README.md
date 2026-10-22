@@ -32,7 +32,7 @@
 ## 2. 目录结构
 
 ```
-fouclnet-release/
+fouclnet-pinn/
 ├── README.md                  本文件
 ├── LICENSE                    MIT 许可证
 ├── requirements.txt           依赖清单
